@@ -5,35 +5,52 @@ import AddButton from '../components/AddButton';
 
 const NotesListPage = () => {
   const [notes, setNotes] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     // Add a small delay before getting the notes
     const delay = setTimeout(() => {
       getNotes();
-    }, 300); // Delay of 200 milliseconds (0.2 seconds)
+    }, 300); // Delay of 300 milliseconds (0.3 seconds)
 
     // Clear the timeout if the component unmounts before the delay
     return () => clearTimeout(delay);
   }, []);
 
-  let getNotes = async () => {
+  const getNotes = async () => {
     let res = await axios.get('/api/notes/');
     let data = res.data;
     setNotes(data);
   };
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className='notes'>
       <div className='notes-header'>
         <h2 className='notes-title'>&#9782; NOTES</h2>
-        <p className='notes-count'>{notes.length}</p>
+        <p className='notes-count'>{filteredNotes.length}</p>
+      </div>
+      <div className='search-area'>
+        <input
+          type='text'
+          value={searchQuery}
+          onChange={handleSearch}
+          placeholder='Search notes...'
+        />
       </div>
       <div className='notes-list'>
-        {notes.map((note, index) => (
+        {filteredNotes.map((note, index) => (
           <ListItem key={index} note={note} />
         ))}
       </div>
-      <AddButton/>
+      <AddButton />
     </div>
   );
 };

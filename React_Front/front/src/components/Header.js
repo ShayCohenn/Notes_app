@@ -1,12 +1,19 @@
-import React from 'react'
-import { ReactComponent as Sun } from '../assets/sun.svg'
+import React from 'react';
+import { ReactComponent as Sun } from '../assets/sun.svg';
 
-const Header = () => {
+const Header = ({ toggleDarkMode }) => {
+  const handleClick = () => {
+    toggleDarkMode();
+  };
+
   return (
     <div className='app-header'>
-    <h1>Note List</h1>
-    <button><Sun/></button>
+      <h1>Note List</h1>
+      <button onClick={handleClick}>
+        <Sun />
+      </button>
     </div>
-  )
-}
-export default Header
+  );
+};
+
+export default Header;
