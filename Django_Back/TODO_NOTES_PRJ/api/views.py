@@ -9,7 +9,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 class NoteViewSet(APIView):
-    permission_classes = [IsAuthenticated]  # Add authentication permission
+    # permission_classes = [IsAuthenticated]  # Add authentication permission
 
     def get(self, request, pk=None):
         if pk is not None:
